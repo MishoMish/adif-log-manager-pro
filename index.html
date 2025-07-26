@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ADIF Log Manager Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="src/css/styles.css">
+</head>
+
+<body class="min-h-screen gradient-bg">
+    <div class="min-h-screen p-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-8 fade-in">
+                <h1 class="text-4xl font-bold text-white mb-2">📻 ADIF Log Manager Pro</h1>
+                <p class="text-white/80">Upload, merge, filter, and analyze your amateur radio logs</p>
+            </div>
+
+            <!-- Main Container -->
+            <div class="glass-effect rounded-3xl shadow-2xl p-8 space-y-8">
+
+                <!-- File Upload Section -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        📁 Upload ADIF Files
+                        <span id="fileCount" class="ml-2 text-sm bg-blue-100 px-2 py-1 rounded-full">0 files</span>
+                    </h2>
+                    <div class="space-y-4">
+                        <input type="file" id="adifFiles" accept=".adif,.adi" multiple
+                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+                        <div id="fileList" class="space-y-2"></div>
+                        <div class="flex gap-2">
+                            <button onclick="mergeFiles()" id="mergeBtn" disabled
+                                class="bg-green-500 hover:bg-green-600 disabled:bg-gray-300 text-white px-4 py-2 rounded-lg shadow transition-all">
+                                🔗 Merge All Files
+                            </button>
+                            <button onclick="clearFiles()"
+                                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow transition-all">
+                                🗑️ Clear All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Dashboard -->
+                <div id="statsSection" class="hidden bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6">
+                    <h2 class="text-xl font-semibold mb-4">📊 Log Statistics</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="statsGrid">
+                        <!-- Stats will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Advanced Filters -->
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6">
+                    <h2 class="text-xl font-semibold mb-4">🔍 Advanced Filters</h2>
+
+                    <!-- Timeline Slider -->
+                    <div id="timelineSection" class="hidden mb-6">
+                        <label class="block text-sm font-medium mb-3">📅 Timeline Selection</label>
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <div class="flex items-center justify-between mb-2 text-xs text-gray-600">
+                                <span id="timelineStart">Oldest QSO</span>
+                                <span id="timelineEnd">Newest QSO</span>
+                            </div>
+
+                            <!-- Custom range slider -->
+                            <div class="relative h-8 mb-3">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full h-2 bg-gray-200 rounded-full relative">
+                                        <div id="sliderTrack" class="h-2 bg-blue-500 rounded-full absolute"></div>
+                                    </div>
+                                </div>
+                                <input type="range" id="sliderMin"
+                                    class="absolute w-full h-2 bg-transparent appearance-none pointer-events-auto slider-thumb"
+                                    min="0" max="100" value="0" />
+                                <input type="range" id="sliderMax"
+                                    class="absolute w-full h-2 bg-transparent appearance-none pointer-events-auto slider-thumb"
+                                    min="0" max="100" value="100" />
+                            </div>
+
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="text-center">
+                                    <div class="font-medium" id="selectedStart">-</div>
+                                    <div class="text-xs text-gray-500">Start</div>
+                                </div>
+                                <div class="flex-1 mx-4 text-center">
+                                    <span id="selectedCount"
+                                        class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">
+                                        0 QSOs selected
+                                    </span>
+                                </div>
+                                <div class="text-center">
+                                    <div class="font-medium" id="selectedEnd">-</div>
+                                    <div class="text-xs text-gray-500">End</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Date & Time Filters -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Start Date:</label>
+                            <input type="date" id="fromDate" class="w-full border rounded-lg px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">End Date:</label>
+                            <input type="date" id="toDate" class="w-full border rounded-lg px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Start Time:</label>
+                            <input type="time" id="fromTime" class="w-full border rounded-lg px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">End Time:</label>
+                            <input type="time" id="toTime" class="w-full border rounded-lg px-3 py-2" />
+                        </div>
+                    </div>
+
+                    <!-- Additional Filters -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Callsign Contains:</label>
+                            <input type="text" id="callFilter" placeholder="e.g. W1AW"
+                                class="w-full border rounded-lg px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Band:</label>
+                            <select id="bandFilter" class="w-full border rounded-lg px-3 py-2">
+                                <option value="">All Bands</option>
+                                <option value="160m">160m</option>
+                                <option value="80m">80m</option>
+                                <option value="40m">40m</option>
+                                <option value="20m">20m</option>
+                                <option value="15m">15m</option>
+                                <option value="10m">10m</option>
+                                <option value="6m">6m</option>
+                                <option value="2m">2m</option>
+                                <option value="70cm">70cm</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Mode:</label>
+                            <select id="modeFilter" class="w-full border rounded-lg px-3 py-2">
+                                <option value="">All Modes</option>
+                                <option value="CW">CW</option>
+                                <option value="SSB">SSB</option>
+                                <option value="FM">FM</option>
+                                <option value="FT8">FT8</option>
+                                <option value="FT4">FT4</option>
+                                <option value="PSK31">PSK31</option>
+                                <option value="RTTY">RTTY</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Duplicate Detection -->
+                <div id="duplicateSection" class="hidden bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-6">
+                    <h2 class="text-xl font-semibold mb-4">⚠️ Duplicate QSOs Detected</h2>
+                    <div id="duplicateList" class="space-y-2 mb-4"></div>
+                    <div class="flex gap-2">
+                        <button onclick="removeDuplicates()"
+                            class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg shadow">
+                            Remove All Duplicates
+                        </button>
+                        <button onclick="keepDuplicates()"
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg shadow">
+                            Keep All QSOs
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <button onclick="downloadFiltered()" id="downloadBtn"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all transform hover:scale-105">
+                        💾 Download Filtered ADIF
+                    </button>
+                    <button onclick="downloadCSV()"
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all transform hover:scale-105">
+                        📊 Download as CSV
+                    </button>
+                    <button onclick="generateReport()"
+                        class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all transform hover:scale-105">
+                        📋 Generate Report
+                    </button>
+                </div>
+
+                <!-- QSO Table -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b">
+                        <h2 class="text-lg font-semibold flex items-center justify-between">
+                            📡 QSO Records
+                            <span id="qsoCount" class="text-sm bg-gray-200 px-3 py-1 rounded-full">0 QSOs</span>
+                        </h2>
+                    </div>
+                    <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-gray-100 sticky top-0">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-medium">Date</th>
+                                    <th class="px-4 py-3 text-left font-medium">Time</th>
+                                    <th class="px-4 py-3 text-left font-medium">Callsign</th>
+                                    <th class="px-4 py-3 text-left font-medium">Freq</th>
+                                    <th class="px-4 py-3 text-left font-medium">Band</th>
+                                    <th class="px-4 py-3 text-left font-medium">Mode</th>
+                                    <th class="px-4 py-3 text-left font-medium">RST Sent</th>
+                                    <th class="px-4 py-3 text-left font-medium">RST Rcvd</th>
+                                    <th class="px-4 py-3 text-left font-medium">Comment</th>
+                                </tr>
+                            </thead>
+                            <tbody id="qsoTable" class="divide-y divide-gray-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="src/js/globals.js"></script>
+    <script src="src/js/adifParser.js"></script>
+    <script src="src/js/fileManager.js"></script>
+    <script src="src/js/timeline.js"></script>
+    <script src="src/js/filters.js"></script>
+    <script src="src/js/duplicates.js"></script>
+    <script src="src/js/statistics.js"></script>
+    <script src="src/js/export.js"></script>
+    <script src="src/js/ui.js"></script>
+    <script src="src/js/app.js"></script>
+</body>
+
+</html>
