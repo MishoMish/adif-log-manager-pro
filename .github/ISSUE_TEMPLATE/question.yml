@@ -1,0 +1,50 @@
+name: Question or Discussion
+description: Ask a question or start a discussion about the ADIF Log Manager Pro
+title: "[QUESTION] "
+labels: ["question"]
+assignees:
+  - MishoMish
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Got a question? I'm here to help! 73, LZ1MBO
+  
+  - type: input
+    id: callsign
+    attributes:
+      label: Your Callsign (optional)
+      description: Your amateur radio callsign
+      placeholder: ex. W1AW
+    validations:
+      required: false
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Question Category
+      description: What is your question about?
+      options:
+        - How to use the application
+        - ADIF file format questions
+        - Technical support
+        - Feature clarification
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any additional information that might help answer your question
+    validations:
+      required: false

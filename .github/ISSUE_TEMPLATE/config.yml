@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Discussions
+    url: https://github.com/MishoMish/adif-log-manager-pro/discussions
+    about: Ask questions and discuss features with the community
+  - name: Amateur Radio Community
+    url: https://www.reddit.com/r/amateurradio/
+    about: General amateur radio discussions on Reddit

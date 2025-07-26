@@ -15,7 +15,7 @@
         "qso",
         "radio-logging"
     ],
-    "author": "Amateur Radio Community",
+    "author": "LZ1MBO (Amateur Radio Community)",
     "license": "MIT",
     "devDependencies": {
         "http-server": "^14.1.1",

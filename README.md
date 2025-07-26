@@ -2,6 +2,8 @@
 
 A modern, web-based amateur radio log manager for ADIF files with advanced filtering, duplicate detection, and export capabilities.
 
+**⚠️ Early Development Notice:** This application is currently in early development. If you encounter any problems or have suggestions, please contact me via GitHub Issues.
+
 ## Features
 
 - 📁 **Multi-file Upload**: Upload and merge multiple ADIF files
@@ -119,8 +121,19 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Author
 
-Created for amateur radio operators worldwide.
+Created by **LZ1MBO** for amateur radio operators worldwide.
 
-## Support
+## Support & Feedback
 
-For issues, questions, or suggestions, please open an issue on GitHub.
+**This application is in early development.** For issues, questions, suggestions, or bug reports, please:
+
+1. **Open a GitHub Issue** (recommended): [Create New Issue](https://github.com/MishoMish/adif-log-manager-pro/issues/new)
+2. **Start a Discussion**: [GitHub Discussions](https://github.com/MishoMish/adif-log-manager-pro/discussions)
+
+When reporting issues, please include:
+- Browser type and version
+- Steps to reproduce the problem
+- Sample ADIF file (if the issue is file-specific)
+- Screenshots if applicable
+
+Your feedback helps improve this tool for the entire amateur radio community! 73!
