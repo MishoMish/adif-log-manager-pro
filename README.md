@@ -37,12 +37,14 @@ Visit the live demo at: `https://MishoMish.github.io/adif-log-manager-pro` (repl
 **IMPORTANT**: You must enable GitHub Pages first before the workflow will work:
 
 1. **Create a new repository on GitHub** and push your code:
+
    ```bash
    git remote add origin https://github.com/MishoMish/adif-log-manager-pro.git
    git push -u origin main
    ```
 
 2. **Enable GitHub Pages**:
+
    - Go to your repository on GitHub
    - Click on **Settings** (top menu)
    - Scroll down to **Pages** (left sidebar)
@@ -50,6 +52,7 @@ Visit the live demo at: `https://MishoMish.github.io/adif-log-manager-pro` (repl
    - Click **Save**
 
 3. **Manual first deployment** (if the workflow fails):
+
    - Go to the **Actions** tab in your repository
    - Click on the failed workflow run
    - Click **"Re-run all jobs"**
