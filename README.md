@@ -19,13 +19,27 @@ A modern, web-based amateur radio log manager for ADIF files with advanced filte
 - Modern web browser (Chrome, Firefox, Safari, Edge)
 - No installation required - runs entirely in the browser
 
-### Usage
+### Online Version
 
-1. Open `index.html` in your web browser
-2. Upload one or more ADIF files using the file upload section
-3. Click "Merge All Files" to process the files
-4. Use the various filters to refine your view
-5. Export your filtered data in your preferred format
+Visit the live demo at: `https://MishoMish.github.io/adif-log-manager-pro` (replace with your GitHub username)
+
+### Local Usage
+
+1. Download or clone this repository
+2. Open `index.html` in your web browser
+3. Upload one or more ADIF files using the file upload section
+4. Click "Merge All Files" to process the files
+5. Use the various filters to refine your view
+6. Export your filtered data in your preferred format
+
+### GitHub Pages Setup
+
+To enable GitHub Pages for your repository:
+
+1. Go to your repository settings on GitHub
+2. Navigate to the "Pages" section
+3. Under "Source", select "GitHub Actions"
+4. The site will automatically deploy when you push to the main branch
 
 ## Project Structure
 
